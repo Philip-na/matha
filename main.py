@@ -1,24 +1,24 @@
-# problem 1 implimatation (Automobile alarm circut)
-def alarm_circuit(door_open, car_started, head_lights_on):
+# problem 1 implimentation (Automobile alarm circuit)
+def alarm_circuit(door_open, ignition_on, head_lights_on):
     
-    alarmkDoor_openCar_started = door_open and car_started # check if the door is open and the car is started
+    alarmDoor_openIgnition_on = door_open and ignition_on # check if door is open while ignition is on
     
-    alarmHead_lights_onCar_started = head_lights_on and (not car_started) # check if the headlights are on and the car is not started
+    alarmHead_lights_onIgnition_on = head_lights_on and (not ignition_on) # check if the headlight is on while the ignition is off.
     
-    trigered_alarm = alarmkDoor_openCar_started or alarmHead_lights_onCar_started # check if the alarm is trigered by either of the two conditions
+    trigger_alarm = alarmDoor_openIgnition_on or alarmHead_lights_onIgnition_on # check if the alarm is triggered by either of the two conditions
     
-    if trigered_alarm:
-        return "Alarm is trigered"
+    if trigger_alarm:
+        return "Alarm is triggered"
     else:
-        return "Alarm is not trigered"
+        return "Alarm is not triggered"
     
     
-# problem 2 implimatation (Car Seatbely alarm system)
+# problem 2 implimentation (Car Seatbely alarm system)
 def seat_belt_alarm(driver_seat_belt, passenger_seat_belt):
     
     pass
 
-# problem 3 implimatation (Syrup Manufacturing control logic)
+# problem 3 implimentation (Syrup Manufacturing control logic)
 def syrup_manufacturing(temperature, pressure, viscosity):
 
     pass
@@ -38,26 +38,29 @@ def main():
         choice = input("Enter your choice (1-4): ")
 
         if choice == '1':
+
+            print("....... welcome to alarmcircuit......")
+            print("....door closed...")
             
             # let the user input the values
             door_open = input("Is the door open? (True/False): ")
-            car_started = input("Is the car started? (True/False): ")
+            ignition_on = input("Is the car started? (True/False): ")
             head_lights_on = input("Are the headlights on? (True/False): ")
             
             # convert the input values to boolean
             door_open = True if door_open.lower() == 'true' else False
-            car_started = True if car_started.lower() == 'true' else False
+            ignition_on = True if ignition_on.lower() == 'true' else False
             head_lights_on = True if head_lights_on.lower() == 'true' else False
             
-            # Call the function for problem 1
-            result = alarm_circuit(door_open, car_started, head_lights_on)
+            # Calling the function for problem 1
+            result = alarm_circuit(door_open, ignition_on, head_lights_on)
             print(f"Alarm circuit result: {result}")
             
         elif choice == '2':
-            # Call the function for problem 2
+            # Calling the function for problem 2
             pass
         elif choice == '3':
-            # Call the function for problem 3
+            # Calling the function for problem 3
             pass
         elif choice == '4':
             print("Exiting the program.")
@@ -66,7 +69,7 @@ def main():
             print("Invalid choice. Please try again.")
         print()
   
-# Call the main function to start the program      
+# Calling the main function to start the program      
 if __name__ == "__main__":
     main()
     
