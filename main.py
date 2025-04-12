@@ -15,12 +15,11 @@ def NAND_gate(a, b): # NAND gate
     return not (a and b)
 
 
-
-# main shell programdef main():
-is_running = True
-
+is_running = True # This variable is used to control the main loop of the program
 def main():
     while is_running:
+        # Displaying the menu to the user
+        print("******Welcome to Assessment 3 Simulator******")
         print("Select a problem to solve:")
         print("1. Automobile alarm circuit")
         print("2. Car Seatbelt alarm system")
@@ -34,7 +33,7 @@ def main():
             run_problem_1()
         elif choice == '2':
             # Calling the function for problem 2
-            pass
+            run_problem_2()
         elif choice == '3':
             # Calling the function for problem 3
             pass
@@ -78,26 +77,56 @@ def run_problem_1():
     
     
 # problem 2 implimentation (Car Seatbely alarm system)
+
+def run_problem_2():
+    print("....... welcome to carseatbelt alarm system......")
+    # let the user input the values
+    ignition_on = input("Is the ignition on? (yes/no): ")
+    driver_seat_on = input("Is the driver seat occupied? (yes/no): ")
+    driver_seat_belt_on = input("Is the driver wearing a seatbelt? (yes/no): ")
+    passenger_seat_on = input("Is the passenger seat occupied? (yes/no): ")
+    passenger_seat_belt_on = input("Is the passenger wearing a seatbelt? (yes/no): ")
+    
+    # convert the input values to boolean
+    ignition_on = True if ignition_on.lower() == 'yes' else False
+    driver_seat_on = True if driver_seat_on.lower() == 'yes' else False
+    driver_seat_belt_on = True if driver_seat_belt_on.lower() == 'yes' else False
+    passenger_seat_on = True if passenger_seat_on.lower() == 'yes' else False
+    passenger_seat_belt_on = True if passenger_seat_belt_on.lower() == 'yes' else False
+    
+    # Calling the function for problem 2
+    result = seat_belt_alarm(ignition_on, driver_seat_on, driver_seat_belt_on, passenger_seat_on, passenger_seat_belt_on)
+    print(f"Seat belt alarm result: {result}")
+    
+   
+
 def seat_belt_alarm(ignition_on,driver_seat_on, driver_seat_belt_on,passenger_seat_on, passenger_seat_belt_on):
         
         # Check if the driver is seated without a seatbelt
         # Use NAND gate to check if the driver is seated and not wearing a seatbelt
-        driver_alarm = NAND_gate(driver_seat_on, NOT_gate(driver_seat_belt_on))
+        BELTD = driver_seat_belt_on
+        BELTD_prim = NOT_gate(BELTD)
+        driver_alarm = NAND_gate(driver_seat_on, NOT_gate(BELTD_prim))
         
         # Check if the passenger is seated without a seatbelt
         # Use NAND gate to check if the passenger is seated and not wearing a seatbelt
-        passenger_alarm = NAND_gate(passenger_seat_on, NOT_gate(passenger_seat_belt_on))
+        BELTP = passenger_seat_belt_on
+        BELTP_prim = NOT_gate(BELTP)
+        passenger_alarm = NAND_gate(passenger_seat_on,NOT_gate(BELTP_prim) )
         
+        if not passenger_seat_on:
+            passenger_alarm = False  # If the passenger seat is not occupied, the alarm should not trigger
+              
         seat_belt_alarm = OR_gate(driver_alarm, passenger_alarm)  # Check if either the driver or passenger alarm is triggered
-        
-        # Check if the ignition is on and either alarm is triggered
-        # Use NAND gate to check if the ignition is on and either alarm is triggered
+            
+        # If the ignition is off, the alarm should not trigger
+        # Use NAND gate to check if the ignition is on and the seat belt alarm is triggered
         trigger_alarm = NAND_gate(ignition_on, seat_belt_alarm)  
         
         if trigger_alarm:
-            return "Alarm is triggered"
+            return " Alarm is not triggered"
         else:
-            return "Alarm is not triggered"
+            return "Alarm is triggered"
         
         
 # problem 3 implimentation (Syrup Manufacturing control logic)
