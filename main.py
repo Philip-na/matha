@@ -24,6 +24,7 @@ def main():
         print("1. Automobile alarm circuit")
         print("2. Car Seatbelt alarm system")
         print("3. Syrup Manufacturing control logic")
+    
         print("4. Exit")
 
         choice = input("Enter your choice (1-4): ")
@@ -37,6 +38,7 @@ def main():
         elif choice == '3':
             # Calling the function for problem 3
             pass
+       
         elif choice == '4':
             print("Exiting the program.")
             break
@@ -74,10 +76,25 @@ def run_problem_1():
     # Calling the function for problem 1
     result = alarm_circuit(door_open, ignition_on, head_lights_on)
     print(f"Alarm circuit result: {result}")
+
+# testing the alarm_circuit function
+
+testData = [
+    {"door_open": True, "ignition_on": True, "head_lights_on": False, "expected": "Alarm is triggered"},
+    {"door_open": False, "ignition_on": True, "head_lights_on": True, "expected": "Alarm is not triggered"},
+    {"door_open": True, "ignition_on": False, "head_lights_on": True, "expected": "Alarm is triggered"},
+    {"door_open": False, "ignition_on": False, "head_lights_on": False, "expected": "Alarm is not triggered"},
+    {"door_open": True, "ignition_on": False, "head_lights_on": False, "expected": "Alarm is triggered"}, 
+]
+
+# Testing the alarm_circuit function with test data
+def test_alarm_circuit():
+    for test in testData:
+        result = alarm_circuit(test["door_open"], test["ignition_on"], test["head_lights_on"])
+        print(f"Expected: {test['expected']}, Got: {result}")
     
     
 # problem 2 implimentation (Car Seatbely alarm system)
-
 def run_problem_2():
     print("....... welcome to carseatbelt alarm system......")
     # let the user input the values
