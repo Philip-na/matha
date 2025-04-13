@@ -1,21 +1,11 @@
-# Logic gates required for the problems
-def AND_gate(a, b): # AND gate
-    return a and b
-
-
-def OR_gate(a, b): # OR gate
-    return a or b
-
-
-def NOT_gate(a): # NOT gate
-    return not a
-
-
-def NAND_gate(a, b): # NAND gate
-    return not (a and b)
+from logic_gates import AND_gate, OR_gate, NOT_gate, NAND_gate
+from problem3_module import syrup_tank_control_logic
+from tests import ALARM_TESTS, SYRUP_TANK_CONTROL_TEST_CASES
 
 
 is_running = True # This variable is used to control the main loop of the program
+
+# The main function that runs the program
 def main():
     while is_running:
         # Displaying the menu to the user
@@ -76,18 +66,11 @@ def run_problem_1():
     result = alarm_circuit(door_open, ignition_on, head_lights_on)
     print(f"Alarm circuit result: {result}")
 
-# testing the alarm_circuit function
-testData = [
-    {"door_open": True, "ignition_on": True, "head_lights_on": False, "expected": "Alarm is triggered"},
-    {"door_open": False, "ignition_on": True, "head_lights_on": True, "expected": "Alarm is not triggered"},
-    {"door_open": True, "ignition_on": False, "head_lights_on": True, "expected": "Alarm is triggered"},
-    {"door_open": False, "ignition_on": False, "head_lights_on": False, "expected": "Alarm is not triggered"},
-    {"door_open": True, "ignition_on": False, "head_lights_on": False, "expected": "Alarm is triggered"}, 
-]
+
 
 # Testing the alarm_circuit function with test data
 def test_alarm_circuit():
-    for test in testData:
+    for test in ALARM_TESTS:
         result = alarm_circuit(test["door_open"], test["ignition_on"], test["head_lights_on"])
         print(f"Expected: {test['expected']}, Got: {result}")
     
@@ -163,26 +146,31 @@ def run_problem_3():
     
     # Calling the function for problem 3
     syrup_manufacturing(l_max, l_min, f_inlet, temp)
-    print(f"Syrup manufacturing control logic result: {syrup_manufacturing(l_max, l_min, f_inlet, temp)}")
-
+    
 
 def syrup_manufacturing(l_max, l_min, f_inlet, temp):
     # if l_max is True and l_min is False, the system is invalid
     if l_max and not l_min:
         print("Invalid ")
         return 
+    
+    value = syrup_tank_control_logic(l_max, l_min, f_inlet, temp)
+    V_inlet = value[0]
+    v_outlet = value[1]
+    
+    print(f"results for Inlet truth table (V_inlet): {V_inlet}")
+    print(f"results for Outlet truth table (V_outlet): {v_outlet}")
+    return
 
-    # cumputing the V_inlet using the l_max l_min and f_inlet
-    V_inlet = OR_gate(AND_gate(f_inlet, NOT_gate(l_max)), NOT_gate(l_min))
+
+# Testing the syrup_tank_control_logic function with test data
+def test_syrup_tank_control_logic():
+  
     
-    # computing the V_outlet using the l_mim, temp and f_inlet
-    v_outlet = AND_gate(NOT_gate(f_inlet), AND_gate(l_min, temp))
-    
-    
-    print("V_inlet: ", V_inlet)
-    print("V_outlet: ", v_outlet)
-    
-    return 
+    for test in SYRUP_TANK_CONTROL_TEST_CASES:
+        result = syrup_tank_control_logic(test["l_max"], test["l_min"], test["f_inlet"], test["temp"])
+        print(f"Expected: {test['expected']}, Got: {result}")
+        
     
     
 
