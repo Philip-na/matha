@@ -37,8 +37,7 @@ def main():
             run_problem_2()
         elif choice == '3':
             # Calling the function for problem 3
-            pass
-       
+            run_problem_3()   
         elif choice == '4':
             print("Exiting the program.")
             break
@@ -78,7 +77,6 @@ def run_problem_1():
     print(f"Alarm circuit result: {result}")
 
 # testing the alarm_circuit function
-
 testData = [
     {"door_open": True, "ignition_on": True, "head_lights_on": False, "expected": "Alarm is triggered"},
     {"door_open": False, "ignition_on": True, "head_lights_on": True, "expected": "Alarm is not triggered"},
@@ -115,8 +113,7 @@ def run_problem_2():
     result = seat_belt_alarm(ignition_on, driver_seat_on, driver_seat_belt_on, passenger_seat_on, passenger_seat_belt_on)
     print(f"Seat belt alarm result: {result}")
     
-   
-
+    
 def seat_belt_alarm(ignition_on,driver_seat_on, driver_seat_belt_on,passenger_seat_on, passenger_seat_belt_on):
         
         # Check if the driver is seated without a seatbelt
@@ -129,7 +126,9 @@ def seat_belt_alarm(ignition_on,driver_seat_on, driver_seat_belt_on,passenger_se
         # Use NAND gate to check if the passenger is seated and not wearing a seatbelt
         BELTP = passenger_seat_belt_on
         BELTP_prim = NOT_gate(BELTP)
-        passenger_alarm = NAND_gate(passenger_seat_on,NOT_gate(BELTP_prim) )
+        z1 = NOT_gate(BELTP_prim) # z1 in normal 
+        # z1 = False  # z1 is internally shorted to ground (for part b of the problem)
+        passenger_alarm = NAND_gate(passenger_seat_on,z1)
         
         if not passenger_seat_on:
             passenger_alarm = False  # If the passenger seat is not occupied, the alarm should not trigger
@@ -147,9 +146,46 @@ def seat_belt_alarm(ignition_on,driver_seat_on, driver_seat_belt_on,passenger_se
         
         
 # problem 3 implimentation (Syrup Manufacturing control logic)
-def syrup_manufacturing(temperature, pressure, viscosity):
 
-    pass
+def run_problem_3():
+    print("....... welcome to syrup manufacturing control logic......")
+    # let the user input the values
+    l_max = input("Is l_max True? (yes/no): ")
+    l_min = input("Is l_min True? (yes/no): ")
+    f_inlet = input("Is f_inlet True? (yes/no): ")
+    temp = input("Is temp True? (yes/no): ")
+    
+    # convert the input values to boolean
+    l_max = True if l_max.lower() == 'yes' else False
+    l_min = True if l_min.lower() == 'yes' else False
+    f_inlet = True if f_inlet.lower() == 'yes' else False
+    temp = True if temp.lower() == 'yes' else False
+    
+    # Calling the function for problem 3
+    syrup_manufacturing(l_max, l_min, f_inlet, temp)
+    print(f"Syrup manufacturing control logic result: {syrup_manufacturing(l_max, l_min, f_inlet, temp)}")
+
+
+def syrup_manufacturing(l_max, l_min, f_inlet, temp):
+    # if l_max is True and l_min is False, the system is invalid
+    if l_max and not l_min:
+        print("Invalid ")
+        return 
+
+    # cumputing the V_inlet using the l_max l_min and f_inlet
+    V_inlet = OR_gate(AND_gate(f_inlet, NOT_gate(l_max)), NOT_gate(l_min))
+    
+    # computing the V_outlet using the l_mim, temp and f_inlet
+    v_outlet = AND_gate(NOT_gate(f_inlet), AND_gate(l_min, temp))
+    
+    
+    print("V_inlet: ", V_inlet)
+    print("V_outlet: ", v_outlet)
+    
+    return 
+    
+    
+
 
 
   
