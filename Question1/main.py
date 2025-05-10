@@ -1,55 +1,45 @@
-import os
-import tkinter as tk
-from tkinter import messagebox, simpledialog
+import os  # Import the os module for file path operations
 
-def my_file_reader_gui():
-    root = tk.Tk()
-    root.withdraw()  # Hide the main window (we only need popups)
-
+# Define the my_file_reader function to read and validate age files
+def my_file_reader():
+    # Start an infinite loop to keep the program running until valid input is received
     while True:
+        # Begin try-except block to handle potential errors
         try:
-            # Ask for filename using a GUI dialog instead of console input
-            filename = simpledialog.askstring(
-                "File Input",
-                "Please enter the name of the file to be read:",
-                parent=root
-            )
+            # Asking the user to enter the filename
+            filename = input("Please enter the name of the file to be read: ")
             
-            if filename is None:  # User pressed "Cancel"
-                break  # Exit the loop
-            
+            # Construct the full file path by joining the current directory with the filename
             filepath = os.path.join(os.path.dirname(__file__), filename)
             
+            # Attempt to open and read the file
             with open(filepath, 'r') as file:
+                # Read file content and remove any leading/trailing whitespace
                 content = file.read().strip()
                 
+                # Try to convert content to an integer (age validation)
                 try:
                     age = int(content)
-                    messagebox.showinfo("Success", f"Age: {age}")
-                    break  # Exit on success
+                    # If successful, print the age and break out of the loop
+                    print(f"Age: {age}")
+                    break # Force the program to jump out of the loop
+                # Handle case where content is not a valid integer
                 except ValueError:
-                    messagebox.showerror(
-                        "Error",
-                        f"File '{filename}' contains an invalid age.\nTry Again."
-                    )
+                    print(f"File {filename} contains an invalid age.")
+                    print("Try Again")
                     
+        # Handle case where file doesn't exist
         except FileNotFoundError:
-            messagebox.showerror(
-                "Error",
-                f"File '{filename}' not found.\nTry Again."
-            )
+            print(f"File {filename} not found.")
+            print("Try Again")
+        # Handle case where program doesn't have permission to access file
         except PermissionError:
-            messagebox.showerror(
-                "Error",
-                f"Permission denied to file '{filename}'.\nTry Again."
-            )
+            print(f"Permission denied to file {filename}.")
+            print("Try Again")
+        # Catch any other unexpected errors
         except Exception as e:
-            messagebox.showerror(
-                "Error",
-                f"An unexpected error occurred with '{filename}'.\nTry Again."
-            )
+            print(f"unexpected error occurred on: {filename}.")
+            print("Try Again")
 
-    root.destroy()  # Close the hidden Tkinter window
-
-if __name__ == "__main__":
-    my_file_reader_gui()
+# Call the function to start the program
+my_file_reader()
